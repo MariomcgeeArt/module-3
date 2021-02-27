@@ -107,10 +107,6 @@ def animal_facts():
     context = {
         'animal_facts': animal_facts,
         'animal_fact': animal_fact
-        
-        # TODO: Enter your context variables here for:
-        # - the list of all animals (get from animal_to_fact)
-        # - the chosen animal fact (may be None if the user hasn't filled out the form yet)
     }
     return render_template('animal_facts.html', **context)
 
@@ -158,6 +154,8 @@ def image_filter():
     filter_types = filter_types_dict.keys()
 
     if request.method == 'POST':
+
+        
         
         # TODO: Get the user's chosen filter type (whichever one they chose in the form) and save
         # as a variable
@@ -175,6 +173,7 @@ def image_filter():
         image_url = f'./static/images/{image.filename}'
 
         context = {
+            'filter_types': filter_types
             # TODO: Add context variables here for:
             # - The full list of filter types
             # - The image URL
@@ -184,6 +183,7 @@ def image_filter():
 
     else: # if it's a GET request
         context = {
+             'filter_types': filter_types
             # TODO: Add context variable here for the full list of filter types
         }
         return render_template('image_filter.html', **context)
