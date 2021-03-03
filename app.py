@@ -188,10 +188,9 @@ def image_filter():
 
         context = {
             'filter_types': filter_types,
-            ' users_filter':  users_filter
-            # TODO: Add context variables here for:
-            # - The full list of filter types
-            # - The image URL
+            'image_url': image_url
+           
+         
         }
 
         return render_template('image_filter.html', **context)
@@ -199,8 +198,8 @@ def image_filter():
     else: # if it's a GET request
         context = {
              'filter_types': filter_types,
-              'users_filter':  users_filter
-            # TODO: Add context variable here for the full list of filter types
+            
+          
         }
         return render_template('image_filter.html', **context)
 
@@ -208,7 +207,6 @@ def image_filter():
 ################################################################################
 # GIF SEARCH ROUTE
 ################################################################################
-
 
 API_KEY = os.getenv('API_KEY')
 print(API_KEY)
@@ -220,16 +218,15 @@ pp = PrettyPrinter(indent=4)
 def gif_search():
     """Show a form to search for GIFs and show resulting GIFs from Tenor API."""
     if request.method == 'POST':
-        # TODO: Get the search query & number of GIFs requested by the user, store each as a 
-        # variable
+        search_query = request.form.get("search_query")
+        number_of_GIFs = request.form.get("quantity")
 
         response = requests.get(
             TENOR_URL,
             {
-                # TODO: Add in key-value pairs for:
-                # - 'q': the search query
-                # - 'key': the API key (defined above)
-                # - 'limit': the number of GIFs requested
+            'q': search_query,
+            'key': API_KEY,
+            'limit': number_of_GIFs
             })
 
         gifs = json.loads(response.content).get('results')
@@ -237,9 +234,6 @@ def gif_search():
         context = {
             'gifs': gifs
         }
-
-        # Uncomment me to see the result JSON!
-        # pp.pprint(gifs)
 
         return render_template('gif_search.html', **context)
     else:
